@@ -2,22 +2,37 @@
 
 pragma solidity 0.8.19;
 
-contract Raffle{
+
+import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
+import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
+
+
+
+
+
+contract Raffle is VRFConsumerBaseV2Plus{
 
 // CUSTOM ERRORS
-
 error Raffle_InsufficientFee();
+error NotEnoughTimePassed();
 
-uint256 public immutable i_entranceFee;
 
-
+// variable declaration
+uint256 private immutable i_entranceFee;
+uint256 public s_lotteryStartTime;
+uint256 private immutable i_intervalTime;
 address payable[] public raffleFunders;
 
-constructor(uint256 entranceFee){
+
+// Constructor
+constructor(uint256 entranceFee,uint256 intervalTime,uint256 startTime){
 i_entranceFee = entranceFee;
+i_intervalTime = intervalTime;
+s_lotteryStartTime = block.timestamp;
 }
 
 event raffleLogEntry(address indexed players);
+
 
 
     function enterRaffle() public payable {
@@ -36,7 +51,9 @@ emit raffleLogEntry(msg.sender);
 
 
     function pickWinner() public{
-
+if((block.timestamp -s_lotteryStartTime)<i_intervalTime){
+    revert NotEnoughTimePassed();
+}
 
 
 
