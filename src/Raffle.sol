@@ -53,7 +53,15 @@ i_callbackGasLimit = callbackGasLimit;
             revert NotEnoughTimePassed();
         }
 
-        VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient.RandomWordsRequest({});
+        VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient.RandomWordsRequest({
+             keyHash:i_keyHash,
+   subId :i_subId,
+     requestConfirmations : REQUEST_CONFIRMATION,
+     callbackGasLimit :i_callbackGasLimit,
+    numWords :NUM_WORDS,
+    extraArgs: VRFV2PlusClient._argsToBytes(VRFV2PlusClient.ExtraArgsV1({nativePayment: true}))
+        });
+        uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
 
     }
 
