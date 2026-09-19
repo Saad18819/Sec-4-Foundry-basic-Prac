@@ -17,6 +17,8 @@ constructor(uint256 entranceFee){
 i_entranceFee = entranceFee;
 }
 
+event raffleLogEntry(address indexed players);
+
 
     function enterRaffle() public payable {
 
@@ -26,6 +28,7 @@ i_entranceFee = entranceFee;
 
  raffleFunders.push(payable(msg.sender));
 
+emit raffleLogEntry(msg.sender);
 
     }
 
@@ -36,6 +39,17 @@ i_entranceFee = entranceFee;
 
 
 
+
+    }
+
+    function checkEntranceFee() public view returns(uint256){
+        return i_entranceFee;
     }
 
 }
+
+/*
+git add .
+git commit -m "Describe your changes here"
+git push
+ */
