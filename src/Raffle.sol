@@ -75,6 +75,18 @@ s_raffleState = raffleState.Open;
 
 
 
+function checkUpkeep (bytes calldata /*checkData */) public view {
+
+
+
+    
+}
+
+
+
+
+
+
     function pickWinner() public {
         if ((block.timestamp - s_lotteryStartTime) < i_intervalTime) {
             revert NotEnoughTimePassed();
