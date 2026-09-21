@@ -39,7 +39,7 @@ Calculating
 
 
     // Constructor
-    constructor(uint256 entranceFee, uint256 intervalTime, uint256 startTime,bytes32 gaslane,uint256 subId,uint32 callbackGasLimit,address VRFCOORDINATOR)
+    constructor(uint256 entranceFee, uint256 intervalTime, uint256 startTime, bytes32 gaslane, uint256 subId, uint32 callbackGasLimit, address VRFCOORDINATOR)
     VRFConsumerBaseV2Plus(VRFCOORDINATOR)
      {
         i_entranceFee = entranceFee;
