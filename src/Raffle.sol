@@ -75,11 +75,11 @@ s_raffleState = raffleState.Open;
 
 
 
-function checkUpkeep (bytes calldata /*checkData */) public view {
+function checkUpkeep (bytes calldata /*checkData */) public view returns(bool upKeepNeeded, bytes memory /*performData*/) {
 
 
 
-    
+
 }
 
 
