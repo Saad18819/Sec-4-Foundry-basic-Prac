@@ -25,6 +25,7 @@ Calculating
     uint256 public s_lotteryStartTime;
     uint256 private immutable i_intervalTime;
     address payable[] public raffleFunders;
+    uint256 private s_raffleState;
 
 
     // client struct variable declaration
@@ -45,7 +46,7 @@ Calculating
         i_keyHash = gaslane;
 i_subId = subId;
 i_callbackGasLimit = callbackGasLimit;
-
+s_raffleState = raffleState.Open;
     }
 
 
@@ -60,7 +61,7 @@ i_callbackGasLimit = callbackGasLimit;
             revert Raffle_InsufficientFee();
         }
 
-        if(raffleState.open){
+        if(s_raffleState != raffleState.Open){
             revert Raffle_raffleEntryClosed();
         }
 
@@ -70,10 +71,17 @@ i_callbackGasLimit = callbackGasLimit;
     }
 
 
+
     function pickWinner() public {
         if ((block.timestamp - s_lotteryStartTime) < i_intervalTime) {
             revert NotEnoughTimePassed();
         }
+
+        
+      s_raffleState != raffleState.Calculating;
+
+
+
 
         VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient.RandomWordsRequest({
              keyHash:i_keyHash,
@@ -86,6 +94,17 @@ i_callbackGasLimit = callbackGasLimit;
         uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
 
     }
+
+
+
+ function fulfillRandomWords(uint256 requestId, uint256[] calldata randomWords) internal override{
+
+
+
+
+ }
+
+
 
 
     function checkEntranceFee() public view returns (uint256) {
