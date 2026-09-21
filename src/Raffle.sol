@@ -10,6 +10,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     error Raffle_InsufficientFee();
     error NotEnoughTimePassed();
     error Raffle_raffleEntryClosed();
+    error Raffle_transferFailed();
 
 
 // TYPE DECLARATION
@@ -26,6 +27,7 @@ Calculating
     uint256 private immutable i_intervalTime;
     address payable[] public raffleFunders;
     uint256 private s_raffleState;
+    address public s_recentwinner;
 
 
     // client struct variable declaration
@@ -52,6 +54,7 @@ s_raffleState = raffleState.Open;
 
 // EVENTS
     event raffleLogEntry(address indexed players);
+    event raffleWinner(address indexed winner);
 
 
 // FUNCTIONS
@@ -77,7 +80,7 @@ s_raffleState = raffleState.Open;
             revert NotEnoughTimePassed();
         }
 
-        
+
       s_raffleState != raffleState.Calculating;
 
 
@@ -98,6 +101,26 @@ s_raffleState = raffleState.Open;
 
 
  function fulfillRandomWords(uint256 requestId, uint256[] calldata randomWords) internal override{
+
+
+// EFFECTS
+uint256 private winnerIndex = randomWords[0] % raffleFunders.length;
+ address payable winnerAdd = raffleFunders[winnerIndex];
+s_winner = winnerAdd;
+raffleFunders = new address payable[](0);
+s_raffleState = raffleState.Open;
+s_lotteryStartTime = block.timestamp();
+emit raffleWinner(s_winner);
+
+
+// INTERACTIONS
+(bool success,)=s_winner.call{value:address(this).balance}("");
+
+if(!success){
+    revert Raffle_transferFailed();
+}
+
+
 
 
 
