@@ -9,7 +9,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     // CUSTOM ERRORS
     error Raffle_InsufficientFee();
     error NotEnoughTimePassed();
-    error Raffle_raffleEntryClosed()
+    error Raffle_raffleEntryClosed();
 
 
 // TYPE DECLARATION
