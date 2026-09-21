@@ -73,7 +73,12 @@ s_raffleState = raffleState.Open;
         emit raffleLogEntry(msg.sender);
     }
 
-
+/**
+ * @dev this is the function that the chainlink nodes will call to see
+ * if the lottery is ready to have winner picked
+ * The following should be true in order for upKeepNeeded to be true:
+ * 1.The time interval 
+ */
 
 function checkUpkeep (bytes calldata /*checkData */) public view returns(bool upKeepNeeded, bytes memory /*performData*/) {
 
