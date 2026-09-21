@@ -9,6 +9,16 @@ contract Raffle is VRFConsumerBaseV2Plus {
     // CUSTOM ERRORS
     error Raffle_InsufficientFee();
     error NotEnoughTimePassed();
+    error Raffle_raffleEntryClosed()
+
+
+// TYPE DECLARATION
+enum raffleState{
+
+Open,
+Calculating
+
+}
 
     // variable declaration
     uint256 private immutable i_entranceFee;
@@ -16,12 +26,14 @@ contract Raffle is VRFConsumerBaseV2Plus {
     uint256 private immutable i_intervalTime;
     address payable[] public raffleFunders;
 
+
     // client struct variable declaration
     bytes32 private immutable i_keyHash;
     uint256 private immutable i_subId;
     uint16 private constant REQUEST_CONFIRMATION = 3;
     uint32 private immutable i_callbackGasLimit;
     uint32 private constant NUM_WORDS = 1;
+
 
     // Constructor
     constructor(uint256 entranceFee, uint256 intervalTime, uint256 startTime,bytes32 gaslane,uint256 subId,uint32 callbackGasLimit,address VRFCOORDINATOR)
@@ -36,17 +48,27 @@ i_callbackGasLimit = callbackGasLimit;
 
     }
 
+
+// EVENTS
     event raffleLogEntry(address indexed players);
 
+
+// FUNCTIONS
     function enterRaffle() public payable {
+       
         if (msg.value < i_entranceFee) {
             revert Raffle_InsufficientFee();
+        }
+
+        if(raffleState.open){
+            revert Raffle_raffleEntryClosed();
         }
 
         raffleFunders.push(payable(msg.sender));
 
         emit raffleLogEntry(msg.sender);
     }
+
 
     function pickWinner() public {
         if ((block.timestamp - s_lotteryStartTime) < i_intervalTime) {
@@ -64,6 +86,7 @@ i_callbackGasLimit = callbackGasLimit;
         uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
 
     }
+
 
     function checkEntranceFee() public view returns (uint256) {
         return i_entranceFee;
