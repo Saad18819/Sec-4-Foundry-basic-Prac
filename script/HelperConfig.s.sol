@@ -18,6 +18,9 @@ abstract contract DataConstants{
 
 contract HelperConfig is DataConstants,Script{
 
+error invalidChainId();
+
+
 struct NetworkConfig{
     uint256 entranceFee;
     uint256 intervalTime;
@@ -33,7 +36,16 @@ NetworkConfig public config;
 mapping(uint256 chainId => NetworkConfig chainConfig) private chainToConfig;
 
 
-
+function getConfig(uint256 chainId) public view returns(NetworkConfig memory){
+    if(chainToConfig[chainId].VRFCOORDINATOR != address(0)){
+        return chainToConfig[chainId];
+    }
+    else if(chainId == ANVIL_CHAINID){
+        return getAnvil();
+    }else{
+        revert invalidChainId();
+    }
+}
 
 
 
