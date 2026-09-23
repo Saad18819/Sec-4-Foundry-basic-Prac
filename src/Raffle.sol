@@ -75,7 +75,15 @@ s_raffleState = raffleState.Open;
 
 
 
+function checkUpkeep (bytes memory /*checkData */) public view returns(bool upKeepNeeded, bytes memory /*performData*/){
 
+bool timeHasPassed = ((block.timestamp - s_lotteryStartTime) >= i_intervalTime);
+bool isOpen = (s_raffleState ==raffleState.Open);
+bool hasbalance = (address(this).balance > 0);
+bool hasPlayers = (raffleFunders.length > 0);
+
+
+}
 
 
 
