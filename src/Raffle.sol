@@ -11,6 +11,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     error NotEnoughTimePassed();
     error Raffle_raffleEntryClosed();
     error Raffle_transferFailed();
+    error Raffle_UpKeepNotTrue(uint256 balance , uint256 playersLength , uint256 raffleState );
 
 
 // TYPE DECLARATION
@@ -82,18 +83,20 @@ bool isOpen = (s_raffleState ==raffleState.Open);
 bool hasbalance = (address(this).balance > 0);
 bool hasPlayers = (raffleFunders.length > 0);
 
-
+upKeepNeeded = timeHasPassed && isOpen && hasBalance && hasPlayers ;
+return (upKeenNeeded,hex"0x0");
 }
 
 
 
-    function pickWinner() public {
-        if ((block.timestamp - s_lotteryStartTime) < i_intervalTime) {
-            revert NotEnoughTimePassed();
-        }
+ function performUpKeep(bytes calldata /*performData */) external{
 
+     (bool checkUpKeepNeeded , "") = checkUpKeep("");
+     if(!checkUpKeepNeeded){
+        revert Raffle_UpKeepNotTrue(address(this).balance , raffleFunders.length , uint256(s_raffleState));
+     }
 
-      s_raffleState != raffleState.Calculating;
+      s_raffleState = raffleState.Calculating;
 
 
 
