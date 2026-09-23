@@ -34,6 +34,10 @@ mapping(uint256 chainId => NetworkConfig chainConfig) private chainToConfig;
 
 
 
+
+
+
+
 function getMainnet() public pure returns(NetworkConfig memory){
 config = NetworkConfig({
     entranceFee:1 ether,
