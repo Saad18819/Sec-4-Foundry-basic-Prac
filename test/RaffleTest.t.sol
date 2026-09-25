@@ -11,8 +11,15 @@ contract RaffleTest is Test{
 Raffle public raffle;
 HelperConfig public helperconfig;
 
+
+
 function setUp() external {
 Deploycontract contractDeployed = new Deploycontract();
-
+(helperconfig , raffle) = contractDeployed.contractLogic();
 }
+
+
+
+
+
 }
