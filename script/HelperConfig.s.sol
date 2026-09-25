@@ -36,7 +36,7 @@ NetworkConfig public config;
 mapping(uint256 chainId => NetworkConfig chainConfig) private chainToConfig;
 
 
-function getConfig(uint256 chainId) public view returns(NetworkConfig memory){
+function getConfigByChainId(uint256 chainId) public view returns(NetworkConfig memory){
     if(chainToConfig[chainId].VRFCOORDINATOR != address(0)){
         return chainToConfig[chainId];
     }
@@ -47,6 +47,10 @@ function getConfig(uint256 chainId) public view returns(NetworkConfig memory){
     }
 }
 
+
+function getConfig() public view returns(NetworkConfig memory){
+return getConfigByChainId(block.chainid);
+}
 
 
 
