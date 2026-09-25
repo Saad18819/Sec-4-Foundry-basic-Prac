@@ -34,6 +34,9 @@ HelperConfig.NetworkConfig memory config = helperconfig.getConfig();
 
 }
 
+function testInitialStateOpen() external view{
+
+}
 
 function testInsufficientFee() external{
     vm.prank(Player);
@@ -63,7 +66,17 @@ raffle.enterRaffle{value:entranceFee}();
 }
 
 
-
+function testCantEnterWhileCalculating() external{
+    vm.prank(Player);
+    vm.deal(Player,STARTING_BALANCE);
+    raffle.enterRaffle{value:entranceFee}();
+    vm.warp(block.timestamp + 30 + 1);
+    vm.roll(block.number + 1);
+    raffle.performUpKeep();
+    vm.prank(Player);
+    expectRevert(raffle.Raffle_raffleEntryClosed.selector);
+    raffle.enterRaffle{value:entranceFee}();
+}
 
 
 
