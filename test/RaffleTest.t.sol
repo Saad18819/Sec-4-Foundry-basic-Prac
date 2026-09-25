@@ -35,7 +35,7 @@ HelperConfig.NetworkConfig memory config = helperconfig.getConfig();
 }
 
 function testInitialStateOpen() external view{
-
+assert(raffle.getRaffleState() == Raffle.raffleState.Open);
 }
 
 function testInsufficientFee() external{

@@ -155,6 +155,10 @@ function getPlayer(uint256 index) public view returns(address){
     return raffleFunders[index];
 }
 
+function getRaffleState() public view returns(raffleState){
+    return s_raffleState;
+}
+
 /*
 git add .
 git commit -m "Describe your changes here"
