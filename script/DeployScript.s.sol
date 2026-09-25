@@ -8,7 +8,7 @@ import {Raffle} from "../src/Raffle.sol";
 
 
 contract Deploycontract is Script {
-    function run() public {
+    function run() public returns(HelperConfig,Raffle) {
         return contractLogic();
     }
 
