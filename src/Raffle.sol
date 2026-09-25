@@ -150,6 +150,11 @@ if(!success){
     }
 }
 
+
+function getPlayer(uint256 index) public view returns(address){
+    return raffleFunders[index];
+}
+
 /*
 git add .
 git commit -m "Describe your changes here"
