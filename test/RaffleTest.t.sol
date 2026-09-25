@@ -18,11 +18,14 @@ Deploycontract contractDeployed = new Deploycontract();
 (helperconfig , raffle) = contractDeployed.contractLogic();
 }
 
+
 function testInsufficientFee() external{
     vm.prank(Player);
-    vm.expectRevert(raffle.Raffle_InsufficientFee());
+    vm.expectRevert(raffle.Raffle_InsufficientFee.selector);
     raffle.enterRaffle();
 }
+
+
 
 
 
