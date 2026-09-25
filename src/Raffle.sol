@@ -84,14 +84,14 @@ bool hasbalance = (address(this).balance > 0);
 bool hasPlayers = (raffleFunders.length > 0);
 
 upKeepNeeded = timeHasPassed && isOpen && hasBalance && hasPlayers ;
-return (upKeenNeeded,hex"0x0");
+return (upKeenNeeded,"");
 }
 
 
 
  function performUpKeep(bytes calldata /*performData */) external{
 
-     (bool checkUpKeepNeeded , "") = checkUpKeep("");
+     (bool checkUpKeepNeeded ,) = checkUpKeep("");
      if(!checkUpKeepNeeded){
         revert Raffle_UpKeepNotTrue(address(this).balance , raffleFunders.length , uint256(s_raffleState));
      }

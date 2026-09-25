@@ -11,11 +11,17 @@ contract RaffleTest is Test{
 Raffle public raffle;
 HelperConfig public helperconfig;
 
-
+address Player = makeAddr("Player");
 
 function setUp() external {
 Deploycontract contractDeployed = new Deploycontract();
 (helperconfig , raffle) = contractDeployed.contractLogic();
+}
+
+function testInsufficientFee() external{
+    vm.prank(Player);
+    vm.expectRevert(raffle.Raffle_InsufficientFee());
+    raffle.enterRaffle();
 }
 
 

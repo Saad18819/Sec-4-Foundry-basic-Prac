@@ -19,10 +19,10 @@ HelperConfig.NetworkConfig memory raffleConfig = deployConfig.getConfig();
 vm.startBroadcast();
 Raffle raffle = new Raffle(
 raffleConfig.entranceFee,
-raffleConfig.intervalTime
-raffleConfig.VRFCOORDINATOR
-raffleConfig.gaslane
-raffleConfig.subId
+raffleConfig.intervalTime,
+raffleConfig.VRFCOORDINATOR,
+raffleConfig.gaslane,
+raffleConfig.subId,
 raffleConfig.callbackGasLimit
 
 );
