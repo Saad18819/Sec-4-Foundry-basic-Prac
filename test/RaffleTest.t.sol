@@ -79,13 +79,6 @@ function testCantEnterWhileCalculating() external{
 }
 
 
-// what if we need to get data from emitted events in our tests?
-
-function testPerformUpkeepUpdatesRaffleStateAndEmitsRequestId() public{
-
-
-    
-}
 
 
 
