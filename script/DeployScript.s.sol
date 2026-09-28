@@ -46,6 +46,9 @@ raffleConfig.link
 );
 vm.stopBroadcast();
 
+AddConsumer consumer = new AddConsumer();
+consumer.run();
+
 return (deployConfig , raffle);
 
     }

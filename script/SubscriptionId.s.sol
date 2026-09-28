@@ -6,6 +6,8 @@ import {Script} from "forge-std/Script.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
 import {LinkToken} from "test/mocks/LinkToken.sol";
+import {DevOpsTools} from "lib/foundry-devops/src/DevOpsTools.sol";
+
 
 contract Subs is Script{
 
@@ -42,6 +44,9 @@ return subId;
 }
 
 
+
+
+
 contract FundSubscription is Script,DataConstants{
     uint256 public constant FUND_AMOUNT = 3 ether;
 
@@ -72,9 +77,31 @@ vm.stopBroadcast();
     }
 
 function run() external{
+
     fundSubConfig();
 }
 
+}
+
+
+
+contract AddConsumer() public{
+     function run() public{
+ address contractAddress = DevOpsTools.get_most_recent_deployment("Raffle", block.chainid);
+ ConsumerLogicConfig(contractAddress);
+     }
+
+     function ConsumerLogic(address vrf , uint256 subid ,address deployContract) public{
+vm.startBroadcast();
+VRFCoordinatorV2_5Mock(vrf).addConsumer(subid , deployContract);
+vm.stopBroadcast();
+     }
+
+     function ConsumerLogicConfig(address deployContract) public{
+      HelperConfig helperconfig = new HelperConfig();
+    HelperConfig.NetworkConfig memory config = helperconfig.getConfig();
+ConsumerLogic(config.VRFCOORDINATOR ,config.subId,deployContract);
+     }
 
 
 }
