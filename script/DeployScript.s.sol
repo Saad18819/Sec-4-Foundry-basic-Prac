@@ -18,6 +18,17 @@ HelperConfig deployConfig = new HelperConfig();
 HelperConfig.NetworkConfig memory raffleConfig = deployConfig.getConfig();
 
 if(raffleConfig.subId == 0){
+
+    Subs subscription = new Subs();
+    (uint256 subId , address vrfcood) = subscription.run();
+
+    FundSubscription fund = new FundSubscription();
+    fund.run();
+    
+}
+
+
+if(raffleConfig.subId == 0){
 Subs subscription = new subscription();
 (raffleConfig.subId,raffleConfig.VRFCOORDINATOR) = subscription.run();
 }
@@ -29,7 +40,8 @@ raffleConfig.intervalTime,
 raffleConfig.VRFCOORDINATOR,
 raffleConfig.gaslane,
 raffleConfig.subId,
-raffleConfig.callbackGasLimit
+raffleConfig.callbackGasLimit,
+raffleConfig.link
 
 );
 vm.stopBroadcast();

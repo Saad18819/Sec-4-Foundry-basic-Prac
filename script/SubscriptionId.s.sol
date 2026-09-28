@@ -43,12 +43,16 @@ return subId;
 
 
 contract FundSubscription is Script,DataConstants{
-    uint256 constant FUND_AMOUNT = 3 ether;
+    uint256 public constant FUND_AMOUNT = 3 ether;
 
 
 function fundSubConfig() public{
-    HelperConfig config = new HelperConfig();
-    address vrfCoordinator = config.
+    HelperConfig helperconfig = new HelperConfig();
+    HelperConfig.NetworkConfig memory config = helperconfig.getConfig();
+    address vrf = config.VRFCOORDINATOR;
+    uint256 subsId = config.subId;
+    address linkToken = config.link;
+    fundSubs(vrf,subsId,linkToken);
 
 }
 
@@ -67,7 +71,9 @@ vm.stopBroadcast();
         }
     }
 
-
+function run() external{
+    fundSubConfig();
+}
 
 
 
