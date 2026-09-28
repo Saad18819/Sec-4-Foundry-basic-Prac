@@ -3,7 +3,7 @@
 pragma solidity 0.8.19;
 import {Script} from "forge-std/Script.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
-
+import {LinkToken} from "test/mocks/LinkToken.sol";
 
 abstract contract DataConstants{
     uint256 constant ETH_MAINNET_CHAINID = 1;
@@ -28,6 +28,7 @@ struct NetworkConfig{
      bytes32 gaslane; 
      uint256 subId; 
      uint32 callbackGasLimit;
+     address link;
      
 }
 
@@ -61,7 +62,8 @@ return NetworkConfig({
 VRFCOORDINATOR:0x271682DEB8C4E0901D1a1550aD2e64D568E69909,
 gaslane:0xAA77729D3466CA35AE8D28B3BBAC7CC36A5031EFDC430821C02BC31A238AF445,
 subId:0,
-callbackGasLimit:5000
+callbackGasLimit:5000,
+link:0x514910771AF9Ca656af840dff83E8264EcF986CA
 });
 
 }
@@ -78,7 +80,8 @@ function getSepolia() public view returns(NetworkConfig memory){
 VRFCOORDINATOR:0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625,
 gaslane:0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c,
 subId:0,
-callbackGasLimit:5000
+callbackGasLimit:5000,
+link:0x779877A7B0D9E8603169DdbD7836e478b4624789
 });
 return config;
 }
@@ -94,7 +97,7 @@ if(config.VRFCOORDINATOR != address(0)){
 vm.startBroadcast();
 
 VRFCoordinatorV2_5Mock mocking = new VRFCoordinatorV2_5Mock(BASE_FEE,GAS_FEE,WEI_PER_LINK);
-
+LinkToken link = new LinkToken();
 vm.stopBroadcast();
 
 
@@ -104,7 +107,8 @@ config = NetworkConfig({
 VRFCOORDINATOR:address(mocking),
 gaslane:0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c,
 subId:0,
-callbackGasLimit:5000
+callbackGasLimit:5000,
+link:address(link);
 });
 return config;
 
