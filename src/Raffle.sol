@@ -56,7 +56,7 @@ s_raffleState = raffleState.Open;
 // EVENTS
     event raffleLogEntry(address indexed players);
     event raffleWinner(address indexed winner);
-
+event RaffleWinner_RequestId(uint256 indexed reqId);
 
 // FUNCTIONS
     function enterRaffle() public payable {
@@ -110,7 +110,7 @@ return (upKeenNeeded,"");
     extraArgs: VRFV2PlusClient._argsToBytes(VRFV2PlusClient.ExtraArgsV1({nativePayment: true}))
         });
         uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
-
+emit RaffleWinner_RequestId(requestId);
     }
 
 

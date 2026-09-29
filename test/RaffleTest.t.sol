@@ -6,6 +6,8 @@ import {Test} from "forge-std/Test.sol";
 import {Raffle} from "../src/Raffle.sol";
 import { Deploycontract} from "../script/DeployScript.s.sol";
 import {HelperConfig} from "../script/HelperConfig.s.sol";
+import {Vm} from "forge-std/Vm.sol";
+
 
 contract RaffleTest is Test{
 Raffle public raffle;
@@ -124,7 +126,19 @@ function testPerformUpKeepRevert() public{
   raffle.performUpKeep("");
 }
 
-function testUpKeepEmit
+function testCheckUpKeepEmit() public{
+ vm.deal(Player,STARTING_BALANCE);
+  vm.prank(Player);
+   raffle.enterRaffle{value:entranceFee}();
+    vm.warp(block.timestamp + 30 + 1);
+    vm.roll(block.number + 1);
+
+    vm.recordLogs();
+     raffle.performUpKeep("");
+     Vm.Log[] memory entries = vm.getRecordedLogs(); 
+    bytes32 requestId = entries[1].topics[1];
+
+}
 
 
 
