@@ -100,6 +100,16 @@ function testCheckupKeepReturnsFalseWhenStateOpen() public{
 }
 
 
+function testUpkeepOnlyWorksWhenCheckUpKeepTrue() public{
+     vm.deal(Player,STARTING_BALANCE);
+  vm.prank(Player);
+   raffle.enterRaffle{value:entranceFee}();
+    vm.warp(block.timestamp + 30 + 1);
+    vm.roll(block.number + 1);
+
+   raffle.performUpKeep("");
+}
+
 
 
 
