@@ -138,6 +138,8 @@ function testCheckUpKeepEmit() public{
      Vm.Log[] memory entries = vm.getRecordedLogs(); 
     bytes32 requestId = entries[1].topics[1];
 
+    assert(requestId>0);
+
 }
 
 
