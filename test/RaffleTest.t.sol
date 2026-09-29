@@ -72,14 +72,32 @@ function testCantEnterWhileCalculating() external{
     raffle.enterRaffle{value:entranceFee}();
     vm.warp(block.timestamp + 30 + 1);
     vm.roll(block.number + 1);
-    raffle.performUpKeep();
+    raffle.performUpKeep("");
     vm.prank(Player);
     expectRevert(raffle.Raffle_raffleEntryClosed.selector);
     raffle.enterRaffle{value:entranceFee}();
 }
 
 
+function testCheckupKeepReturnsFalseWhenNoBalance() public{
+    vm.warp(block.timestamp + intervalTime + 1);
+    vm.roll(block.number + 1);
+(bool upKeep,) = raffle.checkUpkeep("");
+    assert(!upKeep);
+}
 
+function testCheckupKeepReturnsFalseWhenStateOpen() public{
+  vm.deal(Player,STARTING_BALANCE);
+  vm.prank(Player);
+   raffle.enterRaffle{value:entranceFee}();
+    vm.warp(block.timestamp + 30 + 1);
+    vm.roll(block.number + 1);
+
+   raffle.performUpKeep("");
+   (bool upKeep,) = raffle.checkUpkeep("");
+
+   assert(!upKeep);
+}
 
 
 
