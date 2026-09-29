@@ -110,7 +110,21 @@ function testUpkeepOnlyWorksWhenCheckUpKeepTrue() public{
    raffle.performUpKeep("");
 }
 
+function testPerformUpKeepRevert() public{
+    uint256 balance = 0;
+    uint256 player = 0;
+    Raffle.raffleState rState = raffle.getRaffleState();
+       vm.deal(Player,STARTING_BALANCE);
+  vm.prank(Player);
+   raffle.enterRaffle{value:entranceFee}();
+   balance = balance + entranceFee;
+   player = player +1;
 
+   vm.expectRevert(abi.encodeWithSelector(Raffle.Raffle_UpKeepNotTrue.selector , balance,player,rState));
+  raffle.performUpKeep("");
+}
+
+function testUpKeepEmit
 
 
 
